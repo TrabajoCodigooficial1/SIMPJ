@@ -12,10 +12,17 @@ function show_help() {
 
 case "$1" in
     esth)
-        echo "-----------------------------"
-        echo "Matando todos los procesos Java..."
+    echo "-----------------------------"
+    echo "Matando todos los procesos Java..."
+    if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+        # Windows
+        taskkill //F //IM java.exe //T > /dev/null 2>&1
+    else
+        # Linux / Mac
         pkill -f java
-        ;;
+    fi
+    ;;
+
     simpj)
         if [ -z "$2" ]; then
                 echo "-----------------------------"
