@@ -44,7 +44,7 @@ public class SimpjTranslator {
                     String contenido = line.substring(9).trim();
                     pw.println(indentSpace + "System.out.println(" + contenido + ");");
                 }
-                // Leer enteros
+                // Leer entero
                 else if (line.matches("\\w+\\s*=\\s*leer\\(\\)")) {
                     String var = line.split("=")[0].trim();
                     pw.println(indentSpace + "int " + var + " = sc.nextInt();");
@@ -56,7 +56,28 @@ public class SimpjTranslator {
                     pw.println(indentSpace + "String " + var + " = sc.nextLine();");
                     variables.put(var, "String");
                 }
-                // Asignaciones y operaciones
+                // Listas
+                else if (line.matches("\\w+\\s*=\\s*\\[.*\\]")) {
+                    String var = line.split("=")[0].trim();
+                    String content = line.substring(line.indexOf("[") + 1, line.lastIndexOf("]")).trim();
+                    String[] elements = content.split(",");
+                    boolean allNumbers = true;
+                    for (String e : elements) {
+                        if (!e.trim().matches("-?\\d+")) {
+                            allNumbers = false;
+                            break;
+                        }
+                    }
+                    if (allNumbers) {
+                        pw.println(indentSpace + "int[] " + var + " = new int[]{" + content + "};");
+                        variables.put(var, "int[]");
+                    } else {
+                        // String array
+                        pw.println(indentSpace + "String[] " + var + " = new String[]{" + content + "};");
+                        variables.put(var, "String[]");
+                    }
+                }
+                // Asignaciones simples
                 else if (line.matches("\\w+\\s*=.*")) {
                     String[] parts = line.split("=", 2);
                     String var = parts[0].trim();
@@ -76,7 +97,6 @@ public class SimpjTranslator {
                             pw.println(indentSpace + "double " + var + " = " + val + ";");
                             variables.put(var, "double");
                         } else {
-                            // Si es una expresión compleja con variables
                             pw.println(indentSpace + "int " + var + " = " + val + ";");
                             variables.put(var, "int");
                         }
@@ -84,7 +104,7 @@ public class SimpjTranslator {
                         pw.println(indentSpace + var + " = " + val + ";");
                     }
                 }
-                // Condicionales
+                // Condicional
                 else if (line.startsWith("si ") && line.endsWith(":")) {
                     String condition = line.substring(3, line.length() - 1).trim();
                     pw.println(indentSpace + "if (" + condition + ") {");
