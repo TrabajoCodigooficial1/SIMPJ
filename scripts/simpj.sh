@@ -3,11 +3,19 @@
 SRC_DIR="./src"
 
 function show_help() {
-    echo "Comandos SIMPJ disponibles:"
-    echo "  esth   : mata todos los procesos Java"
+        echo "                           "
+
+
+    echo " ⚙️  Comandos de SIMPJ disponibles:"
+                echo "---------------------------------------------------------------------"
+
+    echo "  esth   : mata todos los procesos Java en ejecución"
     echo "  simpj  : compila y ejecuta: x simpj carpeta/archivo.simpj"
-    echo "  limpia : limpia la terminal"
-    echo "  help   : muestra esta ayuda"
+    echo "  limpia : limpia la terminal (compatible con Windows, Linux y Mac)"
+    echo "  help   : muestra esta ayuda y demás instrucciones"
+    echo "  exit   : salir de la terminal actual ( No se pierde el progreso )"
+        echo "---------------------------------------------------------------------"
+
 }
 
 case "$1" in
