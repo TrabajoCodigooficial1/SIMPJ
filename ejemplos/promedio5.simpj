@@ -1,0 +1,10 @@
+# Calcular el promedio de 5 números
+suma = 0
+i = 1
+mientras i <= 5:
+    num = leer()
+    suma = suma + num
+    i = i + 1
+fin_mientras
+promedio = suma / 5
+imprimir promedio

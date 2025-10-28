@@ -1,0 +1,6 @@
+# Contar hacia atrás desde un número hasta 1
+n = leer()
+mientras n > 0:
+    imprimir n
+    n = n - 1
+fin_mientras

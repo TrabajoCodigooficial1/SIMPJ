@@ -1,0 +1,8 @@
+# Lista de nombres
+nombres = ["Ana", "Luis", "Pedro", "Marta"]
+
+i = 0
+mientras i < 4:
+    imprimir nombres[i]
+    i = i + 1
+fin_mientras

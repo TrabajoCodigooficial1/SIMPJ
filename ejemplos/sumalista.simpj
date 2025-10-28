@@ -1,0 +1,11 @@
+# Lista de números
+lista = [10, 20, 30, 40, 50]
+
+suma = 0
+i = 0
+mientras i < 5:
+    suma = suma + lista[i]
+    i = i + 1
+fin_mientras
+
+imprimir suma

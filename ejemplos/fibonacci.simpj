@@ -1,0 +1,12 @@
+# Generar los primeros n números de Fibonacci
+n = leer()
+a = 0
+b = 1
+i = 1
+mientras i <= n:
+    imprimir a
+    temp = a + b
+    a = b
+    b = temp
+    i = i + 1
+fin_mientras

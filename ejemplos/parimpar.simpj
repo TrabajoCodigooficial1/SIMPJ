@@ -1,0 +1,8 @@
+# Determinar si un número es par o impar
+num = leer()
+si num % 2 == 0:
+    imprimir "El número es par"
+fin_si
+si num % 2 != 0:
+    imprimir "El número es impar"
+fin_si

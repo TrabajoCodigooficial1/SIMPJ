@@ -12,28 +12,44 @@ function show_help() {
 
 case "$1" in
     esth)
+        echo "-----------------------------"
         echo "Matando todos los procesos Java..."
         pkill -f java
         ;;
     simpj)
         if [ -z "$2" ]; then
+                echo "-----------------------------"
+
             echo "Uso: simpj <archivo.simpj>"
             exit 1
         fi
 
         INPUT="$2"
-        echo "Compilando traductor..."
+                echo "-----------------------------"
+
+        echo "Compilando y Generando código..."
         javac "$SRC_DIR/SimpjTranslator.java"
+        echo "-----------------------------"
 
         echo "Ejecutando traductor para $INPUT..."
         java -cp "$SRC_DIR" SimpjTranslator "$INPUT"
 
         if [ -f Main.java ]; then
+
             echo "Compilando Main.java..."
             javac Main.java
+
             echo "Ejecutando Main.java..."
-            java Main
+                    echo "-----------------------------"
+                    echo "---------RESULTADO----------"
+
+                    echo "                             "
+
+       java Main
+
         else
+                echo "-----------------------------"
+
             echo "Error: Main.java no se generó."
             exit 1
         fi
@@ -45,6 +61,8 @@ case "$1" in
         show_help
         ;;
     *)
+            echo "-----------------------------"
+
         echo "Comando no reconocido."
         show_help
         ;;

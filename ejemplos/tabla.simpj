@@ -1,0 +1,8 @@
+# Mostrar tabla de multiplicar de un número
+num = leer()
+i = 1
+mientras i <= 10:
+    resultado = num * i
+    imprimir resultado
+    i = i + 1
+fin_mientras

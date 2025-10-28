@@ -1,0 +1,12 @@
+# Determinar el número mayor entre tres
+a = leer()
+b = leer()
+c = leer()
+mayor = a
+si b > mayor:
+    mayor = b
+fin_si
+si c > mayor:
+    mayor = c
+fin_si
+imprimir mayor

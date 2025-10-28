@@ -1,0 +1,11 @@
+# Crear una lista de números
+lista = [1, 2, 3, 4, 5]
+
+# Inicializar índice
+i = 0
+
+# Recorrer la lista e imprimir cada elemento
+mientras i < 5:
+    imprimir lista[i]
+    i = i + 1
+fin_mientras

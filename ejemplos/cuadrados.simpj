@@ -1,0 +1,7 @@
+# Mostrar los cuadrados de números del 1 al n
+n = leer()
+i = 1
+mientras i <= n:
+    imprimir i * i
+    i = i + 1
+fin_mientras

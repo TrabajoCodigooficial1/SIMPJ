@@ -24,9 +24,18 @@ public class SimpjTranslator {
             int indent = 8;
 
             String line;
+            boolean inMultilineComment = false;
+
             while ((line = br.readLine()) != null) {
                 line = line.trim();
-                if (line.isEmpty() || line.startsWith("#")) continue;
+                if (line.isEmpty()) continue;
+
+                // Comentarios multilínea
+                if (line.startsWith("'''")) {
+                    inMultilineComment = !inMultilineComment;
+                    continue;
+                }
+                if (inMultilineComment || line.startsWith("#")) continue;
 
                 String indentSpace = " ".repeat(indent);
 
@@ -35,13 +44,19 @@ public class SimpjTranslator {
                     String contenido = line.substring(9).trim();
                     pw.println(indentSpace + "System.out.println(" + contenido + ");");
                 }
-                // Leer entrada
+                // Leer enteros
                 else if (line.matches("\\w+\\s*=\\s*leer\\(\\)")) {
                     String var = line.split("=")[0].trim();
                     pw.println(indentSpace + "int " + var + " = sc.nextInt();");
                     variables.put(var, "int");
                 }
-                // Asignaciones
+                // Leer string
+                else if (line.matches("\\w+\\s*=\\s*leer_string\\(\\)")) {
+                    String var = line.split("=")[0].trim();
+                    pw.println(indentSpace + "String " + var + " = sc.nextLine();");
+                    variables.put(var, "String");
+                }
+                // Asignaciones y operaciones
                 else if (line.matches("\\w+\\s*=.*")) {
                     String[] parts = line.split("=", 2);
                     String var = parts[0].trim();
@@ -51,8 +66,17 @@ public class SimpjTranslator {
                         if (val.startsWith("\"") && val.endsWith("\"")) {
                             pw.println(indentSpace + "String " + var + " = " + val + ";");
                             variables.put(var, "String");
+                        } else if (val.equals("true") || val.equals("false")) {
+                            pw.println(indentSpace + "boolean " + var + " = " + val + ";");
+                            variables.put(var, "boolean");
+                        } else if (val.matches("-?\\d+")) {
+                            pw.println(indentSpace + "int " + var + " = " + val + ";");
+                            variables.put(var, "int");
+                        } else if (val.matches("-?\\d+\\.\\d+")) {
+                            pw.println(indentSpace + "double " + var + " = " + val + ";");
+                            variables.put(var, "double");
                         } else {
-                            // Se asume expresión numérica
+                            // Si es una expresión compleja con variables
                             pw.println(indentSpace + "int " + var + " = " + val + ";");
                             variables.put(var, "int");
                         }
@@ -60,7 +84,7 @@ public class SimpjTranslator {
                         pw.println(indentSpace + var + " = " + val + ";");
                     }
                 }
-                // Condicional
+                // Condicionales
                 else if (line.startsWith("si ") && line.endsWith(":")) {
                     String condition = line.substring(3, line.length() - 1).trim();
                     pw.println(indentSpace + "if (" + condition + ") {");
@@ -80,13 +104,13 @@ public class SimpjTranslator {
                 }
                 // Línea no reconocida
                 else {
-                    System.out.println("Línea no reconocida: " + line);
+                    System.out.println("⚠ Línea no reconocida: " + line);
                 }
             }
 
             pw.println("    }");
             pw.println("}");
-            System.out.println("Traducción completada. Archivo generado: " + outputFile);
+            System.out.println("*Traducción completada. Archivo generado: " + outputFile);
 
         } catch (IOException e) {
             e.printStackTrace();
