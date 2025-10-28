@@ -124,15 +124,21 @@ x simpj ejemplos/sumas.simpj</code></pre>
 </table>
 
 <hr>
-
 <h2>📝 Sintaxis básica de SIMPJ</h2>
+
 <p><strong>Imprimir en pantalla:</strong></p>
 <pre><code>imprimir "Hola Mundo"</code></pre>
 
 <p><strong>Asignación de variables:</strong></p>
 <pre><code>a = 5
 b = "texto"
-c = a + 10</code></pre>
+c = a + 10
+d = true
+e = 3.14</code></pre>
+
+<p><strong>Entrada de usuario:</strong></p>
+<pre><code>num = leer()          # Devuelve un entero
+texto = leer_string()  # Devuelve un string</code></pre>
 
 <p><strong>Condicionales:</strong></p>
 <pre><code>si a > 3:
@@ -146,10 +152,21 @@ mientras i < 5:
     i = i + 1
 fin_mientras</code></pre>
 
+<p><strong>Listas y recorrido:</strong></p>
+<pre><code>lista = [1, 2, 3, 4, 5]
+i = 0
+mientras i < 5:
+    imprimir lista[i]
+    i = i + 1
+fin_mientras</code></pre>
+
 <p><strong>Comentarios:</strong></p>
-<pre><code># Esto es un comentario</code></pre>
+<pre><code># Esto es un comentario
+''' Esto es un
+comentario multilínea '''</code></pre>
 
 <p>SIMPJ traduce automáticamente estas instrucciones a Java y las ejecuta.</p>
+
 
 <hr>
 
