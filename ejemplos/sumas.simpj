@@ -1,0 +1,6 @@
+# Programa para sumar dos números
+a = 5
+b = 7
+suma = a + b
+imprimir "La suma de a y b es:"
+imprimir suma
