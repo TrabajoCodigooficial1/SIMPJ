@@ -2,20 +2,29 @@
 
 SRC_DIR="./src"
 
+
 function show_help() {
-        echo "                           "
+    clear
+    echo ""
+echo " _______  ___   __   __  _______      ___ "
+echo "|       ||   | |  |_|  ||       |    |   |"
+echo "|  _____||   | |       ||    _  |    |   |"
+echo "| |_____ |   | |       ||   |_| |    |   |"
+echo "|_____  ||   | |       ||    ___| ___|   |"
+echo " _____| ||   | | ||_|| ||   |    |       |"
+echo "|_______||___| |_|   |_||___|    |_______|"
 
-
+echo "                       "
+    echo "--------------------------------------------------"
     echo " ⚙️  Comandos disponibles del lenguaje SIMPJ:"
-                echo "---------------------------------------------------------------------"
-
+    echo "--------------------------------------------------"
     echo "  esth   : mata todos los procesos Java en ejecución"
-    echo "  simpj  : compila y ejecuta: x simpj carpeta/archivo.simpj"
+    echo "  simpj  : compila y ejecuta ->  x simpj carpeta/archivo.simpj"
     echo "  limpia : limpia la terminal (compatible con Windows, Linux y Mac)"
     echo "  help   : muestra esta ayuda y demás instrucciones"
-    echo "  exit   : salir de la terminal actual ( No se pierde el progreso )"
-        echo "---------------------------------------------------------------------"
-
+    echo "  exit   : salir de la terminal actual (no se pierde el progreso)"
+    echo "--------------------------------------------------"
+   
 }
 
 case "$1" in
