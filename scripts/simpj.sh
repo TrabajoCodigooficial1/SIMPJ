@@ -6,7 +6,7 @@ function show_help() {
         echo "                           "
 
 
-    echo " ⚙️  Comandos de SIMPJ disponibles:"
+    echo " ⚙️  Comandos disponibles del lenguaje SIMPJ:"
                 echo "---------------------------------------------------------------------"
 
     echo "  esth   : mata todos los procesos Java en ejecución"

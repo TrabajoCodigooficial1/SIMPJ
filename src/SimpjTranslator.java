@@ -39,54 +39,89 @@ public class SimpjTranslator {
 
                 String indentSpace = " ".repeat(indent);
 
-                // Imprimir
+                // ---- imprimir ----
                 if (line.startsWith("imprimir ")) {
                     String contenido = line.substring(9).trim();
+
+                    // Permitir concatenación tipo "hola " + nombre
+                    if (contenido.contains("+")) {
+                        contenido = contenido.replaceAll("\\+", " + ");
+                    }
+
+                    // Reemplazar accesos tipo lista[i]
+                    contenido = contenido.replaceAll("(\\w+)\\[(\\w+)\\]", "($1.get($2))");
+
+                    // Si falta una comilla final, cerrar la cadena
+                    if (contenido.chars().filter(ch -> ch == '"').count() % 2 != 0) {
+                        contenido += "\"";
+                    }
+
                     pw.println(indentSpace + "System.out.println(" + contenido + ");");
                 }
 
-                // Leer entero
+                // ---- leer entero ----
                 else if (line.matches("\\w+\\s*=\\s*leer\\(\\)")) {
                     String var = line.split("=")[0].trim();
                     pw.println(indentSpace + "int " + var + " = sc.nextInt();");
+                    pw.println(indentSpace + "sc.nextLine(); // limpiar buffer");
                     variables.put(var, "int");
                 }
 
-                // Leer string
+                // ---- leer string ----
                 else if (line.matches("\\w+\\s*=\\s*leer_string\\(\\)")) {
                     String var = line.split("=")[0].trim();
                     pw.println(indentSpace + "String " + var + " = sc.nextLine();");
                     variables.put(var, "String");
                 }
 
-                // Declarar lista vacía
+                // ---- lista vacía ----
                 else if (line.matches("\\w+\\s*=\\s*\\[\\s*\\]")) {
                     String var = line.split("=")[0].trim();
                     pw.println(indentSpace + "ArrayList<Object> " + var + " = new ArrayList<>();");
-                    variables.put(var, "ArrayList");
+                    variables.put(var, "ArrayList<Object>");
                 }
 
-                // Concatenar listas (ej: lista = lista + [valor])
-                else if (line.matches("\\w+\\s*=\\s*\\w+\\s*\\+\\s*\\[.*\\]")) {
+                // ---- lista inicializada ----
+                else if (line.matches("\\w+\\s*=\\s*\\[.*\\]")) {
                     String var = line.split("=")[0].trim();
+                    String contenido = line.substring(line.indexOf("[") + 1, line.lastIndexOf("]")).trim();
+                    if (contenido.isEmpty()) contenido = "";
+
+                    boolean esNumerica = Arrays.stream(contenido.split(","))
+                            .map(String::trim)
+                            .allMatch(s -> s.matches("-?\\d+"));
+
+                    if (esNumerica) {
+                        pw.println(indentSpace + "ArrayList<Integer> " + var +
+                                " = new ArrayList<>(Arrays.asList(" + contenido + "));");
+                        variables.put(var, "ArrayList<Integer>");
+                    } else {
+                        pw.println(indentSpace + "ArrayList<Object> " + var +
+                                " = new ArrayList<>(Arrays.asList(" + contenido + "));");
+                        variables.put(var, "ArrayList<Object>");
+                    }
+                }
+
+                // ---- concatenar lista ----
+                else if (line.matches("\\w+\\s*=\\s*\\w+\\s*\\+\\s*\\[.*\\]")) {
                     String base = line.split("=")[1].split("\\+")[0].trim();
                     String valor = line.substring(line.indexOf("[") + 1, line.lastIndexOf("]")).trim();
                     pw.println(indentSpace + base + ".add(" + valor + ");");
                 }
 
-                // Listas con contenido inicial (ej: lista = [1,2,3])
-                else if (line.matches("\\w+\\s*=\\s*\\[.*\\]")) {
-                    String var = line.split("=")[0].trim();
-                    String contenido = line.substring(line.indexOf("[") + 1, line.lastIndexOf("]")).trim();
-                    pw.println(indentSpace + "ArrayList<Object> " + var + " = new ArrayList<>(Arrays.asList(" + contenido + "));");
-                    variables.put(var, "ArrayList");
-                }
-
-                // Asignaciones simples
+                // ---- asignaciones ----
                 else if (line.matches("\\w+\\s*=.*")) {
                     String[] parts = line.split("=", 2);
                     String var = parts[0].trim();
                     String val = parts[1].trim();
+
+                    // Reemplazar accesos tipo lista[i]
+                    val = val.replaceAll("(\\w+)\\[(\\w+)\\]", "($1.get($2))");
+
+                    // Si es una operación aritmética con listas, hacer cast automático a int
+                    if (val.matches(".*\\+.*get.*") || val.matches(".*-.*get.*")) {
+                        val = val.replaceAll("(\\w+)\\.get\\((\\w+)\\)", "(int)$1.get($2)");
+                    }
 
                     if (!variables.containsKey(var)) {
                         if (val.startsWith("\"") && val.endsWith("\"")) {
@@ -110,10 +145,10 @@ public class SimpjTranslator {
                     }
                 }
 
-                // Condicionales
+                // ---- condicional ----
                 else if (line.startsWith("si ") && line.endsWith(":")) {
                     String condition = line.substring(3, line.length() - 1).trim();
-                    condition = condition.replaceAll("(\\w+)\\[(\\w+)\\]", "$1.get($2)");
+                    condition = condition.replaceAll("(\\w+)\\[(\\w+)\\]", "(int)$1.get($2)");
                     pw.println(indentSpace + "if (" + condition + ") {");
                     indent += 4;
                 } else if (line.equals("fin_si")) {
@@ -121,10 +156,10 @@ public class SimpjTranslator {
                     pw.println(" ".repeat(indent) + "}");
                 }
 
-                // Bucles
+                // ---- bucle ----
                 else if (line.startsWith("mientras ") && line.endsWith(":")) {
                     String condition = line.substring(8, line.length() - 1).trim();
-                    condition = condition.replaceAll("(\\w+)\\[(\\w+)\\]", "$1.get($2)");
+                    condition = condition.replaceAll("(\\w+)\\[(\\w+)\\]", "(int)$1.get($2)");
                     pw.println(indentSpace + "while (" + condition + ") {");
                     indent += 4;
                 } else if (line.equals("fin_mientras")) {
@@ -132,12 +167,13 @@ public class SimpjTranslator {
                     pw.println(" ".repeat(indent) + "}");
                 }
 
-                // Reemplazo para accesos tipo lista[i]
+                // ---- accesos tipo lista[i] sueltos ----
                 else if (line.contains("[")) {
                     line = line.replaceAll("(\\w+)\\[(\\w+)\\]", "$1.get($2)");
                     pw.println(indentSpace + line + ";");
                 }
 
+                // ---- línea desconocida ----
                 else {
                     System.out.println("⚠ Línea no reconocida: " + line);
                 }

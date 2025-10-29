@@ -1,0 +1,46 @@
+# Programa de prueba con SIMPJ
+
+imprimir "=== GESTIÓN DE NOTAS ==="
+
+nombres = []
+notas = []
+
+imprimir "¿Cuántos alumnos?"
+n = leer()
+
+i = 0
+mientras i < n:
+    imprimir "Nombre del alumno:"
+    nombre = leer_string()
+
+    imprimir "Nota:"
+    nota = leer()
+
+    nombres = nombres + [nombre]
+    notas = notas + [nota]
+
+    i = i + 1
+fin_mientras
+
+i = 0
+mientras i < n:
+    si notas[i] >= 5:
+        imprimir nombres[i] + " ha aprobado con nota " + notas[i]
+    fin_si
+
+    si notas[i] < 5:
+        imprimir nombres[i] + " ha suspendido con nota " + notas[i]
+    fin_si
+
+    i = i + 1
+fin_mientras
+
+suma = 0
+i = 0
+mientras i < n:
+    suma = suma + notas[i]
+    i = i + 1
+fin_mientras
+
+promedio = suma / n
+imprimir "Promedio de la clase: " + promedio
