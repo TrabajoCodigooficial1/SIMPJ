@@ -15,7 +15,6 @@ echo " _____| ||   | | ||_|| ||   |    |       |"
 echo "|_______||___| |_|   |_||___|    |_______|"
 
 echo "                       "
-    echo "--------------------------------------------------"
     echo " ⚙️  Comandos disponibles del lenguaje SIMPJ:"
     echo "--------------------------------------------------"
     echo "  esth   : mata todos los procesos Java en ejecución"
