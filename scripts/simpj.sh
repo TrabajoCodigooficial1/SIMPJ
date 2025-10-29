@@ -13,7 +13,6 @@ echo "| |_____ |   | |       ||   |_| |    |   |"
 echo "|_____  ||   | |       ||    ___| ___|   |"
 echo " _____| ||   | | ||_|| ||   |    |       |"
 echo "|_______||___| |_|   |_||___|    |_______|"
-
 echo "                       "
     echo " ⚙️  Comandos disponibles del lenguaje SIMPJ:"
     echo "--------------------------------------------------"
@@ -22,6 +21,7 @@ echo "                       "
     echo "  limpia : limpia la terminal (compatible con Windows, Linux y Mac)"
     echo "  help   : muestra esta ayuda y demás instrucciones"
     echo "  exit   : salir de la terminal actual (no se pierde el progreso)"
+    echo "  info   : instrucciones de uso del compilador SIMPJ"
     echo "--------------------------------------------------"
    
 }
